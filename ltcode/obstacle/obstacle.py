@@ -1,11 +1,13 @@
-import pygame as pg
 import random
 from settings.settings import DISPLAY_WIDTH, DISPLAY_HEIGHT
 from settings.obstacle import *
 from settings.color import *
 
-class Obstacle:
+# will be changed in multiplayer to DISPLAY_WIDTH / NUM_PLAYERS
+MAX_X = DISPLAY_WIDTH
 
+
+class Obstacle:
     # for each -1 value, a new random value will be generated
     def __init__(self, x=-1, y=-1, width=-1, height=-1, speed=-1, color=-1):
         self.width = self.get_random_width() if width == -1 else x
@@ -36,18 +38,15 @@ class Obstacle:
         return random.randint(MIN_HEIGHT, MAX_HEIGHT)
 
     def get_random_x(self):
-        return random.randint(0, DISPLAY_WIDTH - self.width)
+        return random.randrange(0, MAX_X - self.width)
 
     def get_random_y(self):
-        return -self.height - random.randint(0, 1000)
+        return -self.height - random.randrange(0, DISPLAY_HEIGHT)
 
     def get_random_color(self):
         min = 50
-        max = 255
-        return (random.randint(min, max), random.randint(min, max), random.randint(min, max))
-
-    def draw(self, surface):
-        pg.draw.rect(surface, self.color, [self.x, self.y, self.width, self.height])
+        max = 256
+        return (random.randrange(min, max), random.randrange(min, max), random.randrange(min, max))
 
     def get_left_x(self):
         return self.x
