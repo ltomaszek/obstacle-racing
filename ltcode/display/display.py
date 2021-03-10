@@ -3,8 +3,8 @@ import time
 from settings import color
 from settings.settings import DISPLAY_WIDTH, DISPLAY_HEIGHT
 
-class Display:
 
+class Display:
     def __init__(self, game_display):
         self.game_display = game_display
 
@@ -58,4 +58,3 @@ class Display:
         self.message_display(f"Level {level}", font, 'center', coor)
         self.update()
         time.sleep(1)
-

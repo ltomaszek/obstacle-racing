@@ -1,2 +1,4 @@
 DISPLAY_WIDTH = 1920
 DISPLAY_HEIGHT = 1080
+
+FPS = 60    # frame per seconds

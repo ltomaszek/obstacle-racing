@@ -14,15 +14,15 @@ import graphics as g
 
 
 class MultiPlayerEngine:
-    def __init__(self, NUM_PLAYERS):
+    def __init__(self, surface, NUM_PLAYERS):
         self.NUM_PLAYERS = NUM_PLAYERS
-        self.game_display = pg.display.set_mode((settings.DISPLAY_WIDTH, settings.DISPLAY_HEIGHT))
+        self.surface = surface
         self.clock = pg.time.Clock()
 
         player_list = PlayerBuilder(self.NUM_PLAYERS).get_players()
         self.players_manager = PlayersManager(player_list)
 
-        self.display = MultiDisplay(self.game_display, player_list)
+        self.display = MultiDisplay(self.surface, player_list)
 
         NUM_OBSTACLES = 4
         self.obstacle_manager = MultiObstacleManager(player_list)
@@ -89,10 +89,10 @@ class MultiPlayerEngine:
             self.players_manager.update_players()
 
             self.display.clear()
-            self.players_manager.draw_players(self.game_display)
+            self.players_manager.draw_players(self.surface)
 
             # update coordinates and draw obstacles
-            round_score += self.obstacle_manager.update_all(self.game_display)
+            round_score += self.obstacle_manager.update_all(self.surface)
 
             #self.display.draw_score(round_score)
             self.display.draw_lives()

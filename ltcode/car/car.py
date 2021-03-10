@@ -1,21 +1,25 @@
 import pygame as pg
 import random
 from settings import settings
+from settings.car import CAR_WIDTH, CAR_HEIGHT
 
-def get_starting_position(car_width, car_height):
-    x = settings.DISPLAY_WIDTH / 2 - car_width / 2
-    y = settings.DISPLAY_HEIGHT - car_height
+
+def get_starting_position(min_x, max_x):
+    range = max_x - min_x
+    x = min_x + range / 2 - CAR_WIDTH / 2
+    y = settings.DISPLAY_HEIGHT - CAR_HEIGHT
     return (x, y)
 
-class Car:
 
-    def __init__(self, start_x, start_y, width, height, speed, img):
-        self.start_x = start_x
-        self.start_y = start_y
-        self.widht = width
-        self.height = height
+class Car:
+    def __init__(self, x_min, x_max, speed, img):
+        self.x_min = x_min
+        self.x_max = x_max
         self.speed = speed
         self.img = img
+        self.x = None
+        self.y = None
+        self.reset();
         self.x_delta = 0
 
         self.reset()
@@ -30,11 +34,15 @@ class Car:
         self.x_delta = 0
 
     def update(self):
-        self.x += self.x_delta
+        if self.x_delta == 0:
+            return
+        if self.x_delta > 0:
+            self.x = min(self.x_max - CAR_WIDTH, self.x + self.x_delta)
+        else:
+            self.x = max(self.x_min, self.x + self.x_delta)
 
     def reset(self):
-        self.x = self.start_x
-        self.y = self.start_y
+        self.x, self.y = get_starting_position(self.x_min, self.x_max)
 
     def draw(self, surface):
         surface.blit(self.img, (self.x, self.y))
@@ -43,10 +51,10 @@ class Car:
         return self.x
 
     def get_right_x(self):
-        return self.x + self.widht
+        return self.x + CAR_WIDTH
 
     def get_front_y(self):
         return self.y
 
     def get_back_y(self):
-        return self.y + self.height
+        return self.y + CAR_HEIGHT

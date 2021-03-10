@@ -28,5 +28,9 @@ class ObstacleManager:
         for obstacle in self.obstacle_list:
             obstacle.speed += 0.5
 
+    def draw_all(self, surface):
+        for obstacle in self.obstacle_list:
+            self.draw(surface, obstacle)
+
     def draw(self, surface, obstacle, x_shift=0):
         pg.draw.rect(surface, obstacle.color, [obstacle.x + x_shift, obstacle.y, obstacle.width, obstacle.height])

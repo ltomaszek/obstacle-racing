@@ -10,8 +10,8 @@ import graphics as g
 
 
 class SinglePlayerEngine:
-    def __init__(self):
-        self.surface = pg.display.set_mode((settings.DISPLAY_WIDTH, settings.DISPLAY_HEIGHT))
+    def __init__(self, surface):
+        self.surface = surface
         self.display = Display(self.surface)
 
         self.clock = pg.time.Clock()
@@ -66,7 +66,8 @@ class SinglePlayerEngine:
 
             self.player.update()
             # update coordinates and draw obstacles
-            round_score += obstacle_manager.update_and_draw_all(self.surface)
+            round_score += obstacle_manager.update(self.surface)
+            obstacle_manager.draw_all(self.surface)
 
             self.player.draw(self.surface)
             self.display.draw_score(round_score)
